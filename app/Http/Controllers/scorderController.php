@@ -63,6 +63,24 @@ class scorderController extends AppBaseController
         return redirect(route('scorders.index'));
     }
 
+    public function checkout()
+{
+    if (Session::has('cart')) {
+        $cart = Session::get('cart');
+        $lineitems = array();
+        foreach ($cart as $productid => $qty) {
+            $lineitem['product'] = \App\Models\Product::find($productid);
+            $lineitem['qty'] = $qty;
+            $lineitems[] = $lineitem;
+        }
+        return view('scorders.checkout')->with('lineitems', $lineitems);
+    }
+    else {
+        Flash::error("There are no items in your cart");
+        return redirect(route('products.displaygrid'));
+    }
+}
+
     /**
      * Display the specified scorder.
      *

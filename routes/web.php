@@ -31,3 +31,5 @@ Route::resource('scorders', App\Http\Controllers\scorderController::class);
 Route::get('product/additem/{id}', 'App\Http\Controllers\productController@additem')->name('products.additem');
 
 Route::get('product/emptycart', 'App\Http\Controllers\productController@emptycart')->name('products.emptycart');
+
+Route::get('scorders/checkout', 'App\Http\Controllers\scorderController@checkout')->name('scorders.checkout');
