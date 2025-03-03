@@ -27,3 +27,5 @@ Route::resource('products', App\Http\Controllers\productController::class);
 
 
 Route::resource('scorders', App\Http\Controllers\scorderController::class);
+
+Route::get('product/additem/{id}', 'App\Http\Controllers\productController@additem')->name('products.additem');
