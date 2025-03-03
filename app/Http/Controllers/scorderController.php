@@ -81,6 +81,26 @@ class scorderController extends AppBaseController
     }
 }
 
+public function placeorder(Request $request)
+{
+    $thisOrder = new \App\Models\Scorder();
+    $thisOrder->orderdate = (new \DateTime())->format("Y-m-d H:i:s");
+    $thisOrder->save();
+    $orderID = $thisOrder->id;
+    $productids = $request->productid;
+    $quantities = $request->quantity;
+    for($i=0;$i<sizeof($productids);$i++) {
+        $thisOrderDetail = new \App\Models\OrderDetail();
+        $thisOrderDetail->orderid = $orderID;
+        $thisOrderDetail->productid = $productids[$i];
+        $thisOrderDetail->quantity = $quantities[$i];
+        $thisOrderDetail->save();
+    }
+    Session::forget('cart');
+    Flash::success("Your Order has Been Placed");
+    return redirect(route('products.displaygrid'));
+}
+
     /**
      * Display the specified scorder.
      *
