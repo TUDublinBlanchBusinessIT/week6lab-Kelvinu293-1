@@ -85,8 +85,30 @@ class productController extends AppBaseController
     public function displayGrid(Request $request)
         {
             $products=\App\Models\Product::all();
-            return view('products.displaygrid')->with('products',$products);
+        echo "got products";
+        if ($request->session()->has('cart')) {
+            $cart = $request->session()->get('cart');
+            print_r($cart);
+            $totalQty=0;
+            foreach ($cart as $product => $qty) {
+                $totalQty = $totalQty + $qty;
+            }
+            $totalItems=$totalQty;
         }
+        else {
+            $totalItems=0;
+            echo "no cart";
+        }
+        return view('products.displaygrid')->with('products',$products)->with('totalItems',$totalItems);
+        }
+
+        public function emptycart()
+     {
+         if (Session::has('cart')) {
+             Session::forget('cart');
+         }
+         return Response::json(['success'=>true],200);
+     }
 
     /**
      * Display the specified product.
